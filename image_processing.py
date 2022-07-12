@@ -195,3 +195,85 @@ def sortArray(medianArray, sizeOfFilter):
                 tempArr[min] = temp
 
     return tempArr
+
+
+def histogramEqualization(img):
+    nrows = getRow(img)
+    ncols = getCol(img)
+    pixSize = 256
+    histPixArr = np.zeros(pixSize)
+    pdfPixArr = np.zeros(pixSize)
+    cdfPixArr = np.zeros(pixSize)
+    roundedpixArr = np.zeros(pixSize)
+    histImg = img.copy()
+    for i in range(nrows):
+        for j in range(ncols):
+            for k in range(pixSize):
+                if img[i, j] == k:
+                    histPixArr[k] += 1
+
+    for i in range(pixSize):
+        pdfPixArr[i] = float(histPixArr[i]) / float(nrows*ncols - 1)
+
+    cdfPixArr[0] = pdfPixArr[0]
+    for i in range(1, pixSize):
+        cdfPixArr[i] = cdfPixArr[i - 1] + pdfPixArr[i]
+    for i in range(pixSize):
+        roundedpixArr[i] = np.round((pixSize - 1) * cdfPixArr[i])
+
+    for i in range(nrows):
+        for j in range(ncols):
+            for k in range(pixSize):
+                if img[i, j] == k:
+                    histImg[i, j] = roundedpixArr[k]
+    return histImg
+
+# |0   1   0|
+# |1  -4   1| soldaki maskenin teorik cikarimina foyden erisebilirsiniz.
+# |0   1   0|
+
+def sharpeningMask(img):
+    nrows = getRow(img)
+    ncols = getCol(img)
+    filteredImg = np.zeros((nrows, ncols), dtype = 'float64')
+    for i in range(nrows):
+        for j in range(ncols):
+            if i >= 1 and j >= 1 and i < nrows-1 and j < ncols-1:
+                pixVal = ((-4) * float(img[i, j]) + \
+                          float(img[i, j-1]) + \
+                          float(img[i, j+1]) + \
+                          float(img[i-1, j]) + \
+                          float(img[i+1, j]))
+            else:
+                pixVal = 0
+            filteredImg[i, j] = pixVal
+    #filteredImg = scaling(filteredImg)
+    filteredImg = filteredImg.astype('uint8')
+    return filteredImg
+
+
+def sharpeningLaplace(img):
+    nrows = getRow(img)
+    ncols = getCol(img)
+    filteredImg = np.zeros((nrows, ncols), dtype='float64')
+    for i in range(nrows):
+        for j in range(ncols):
+            if i >= 1 and j >= 1 and i < nrows-1 and j < ncols-1:
+                pixVal = ((-8) * float(img[i, j]) + \
+                          float(img[i, j - 1]) + \
+                          float(img[i, j + 1]) + \
+                          float(img[i - 1, j]) + \
+                          float(img[i + 1, j]) + \
+                          float(img[i + 1, j + 1]) + \
+                          float(img[i - 1, j - 1]) + \
+                         float(img[i - 1, j + 1]) + \
+                         float(img[i - 1, j + 1]))
+            else:
+                pixVal = 0
+            filteredImg[i, j] = pixVal
+    #print(filteredImg)
+    #filteredImg = scaling(filteredImg)
+    filteredImg = filteredImg.astype('uint8')
+    return filteredImg
+
+

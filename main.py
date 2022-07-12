@@ -127,6 +127,7 @@ def main():
 
     """
     # median filter mask implementation
+    """
     img = ip.readImage("saltpep-board.png")
     dir = os.path.join(os.getcwd(), "output", "median-filter-masked-image")
     if not os.path.exists(dir):
@@ -136,6 +137,62 @@ def main():
     ip.writeImage("./output/median-filter-masked-image/median-filter-3x3-image-saltpep-board.png", img)
     img = ip.medianFilterMask(img, 5)
     ip.writeImage("./output/median-filter-masked-image/median-filter-5x5-image-saltpep-board.png", img)
+
+    """
+   # histogram equalization implementation
+    """
+    img1 = ip.readImage("coffee_bean_1.png")
+    img2 = ip.readImage("coffee_bean_2.png")
+    img3 = ip.readImage("coffee_bean_3.png")
+    img4 = ip.readImage("coffee_bean_4.png")
+
+    dir = os.path.join(os.getcwd(), "output", "histogram-equalization-image")
+    if not os.path.exists(dir):
+        os.mkdir(dir)
+
+    ip.writeImage("./output/histogram-equalization-image/coffee_bean_1.png", img1)
+    ip.writeImage("./output/histogram-equalization-image/coffee_bean_2.png", img2)
+    ip.writeImage("./output/histogram-equalization-image/coffee_bean_3.png", img3)
+    ip.writeImage("./output/histogram-equalization-image/coffee_bean_4.png", img4)
+
+    img1 = ip.histogramEqualization(img1)
+    ip.writeImage("./output/histogram-equalization-image/hist-equalization-coffee_bean_1.png", img1)
+    img2 = ip.histogramEqualization(img2)
+    ip.writeImage("./output/histogram-equalization-image/hist-equalization-coffee_bean_2.png", img2)
+    img3 = ip.histogramEqualization(img3)
+    ip.writeImage("./output/histogram-equalization-image/hist-equalization-coffee_bean_3.png", img3)
+    img4 = ip.histogramEqualization(img4)
+    ip.writeImage("./output/histogram-equalization-image/hist-equalization-coffee_bean_4.png", img4)
+
+    """
+    # sharpening mask implementation
+    img = ip.readImage("blurry_moon.png")
+    dir = os.path.join(os.getcwd(), "output", "sharpening-mask-image")
+    if not os.path.exists(dir):
+        os.mkdir(dir)
+    ip.writeImage("./output/sharpening-mask-image/blurry_moon.png", img)
+    filteredImg = ip.sharpeningMask(img)
+    #SCALING
+    ip.writeImage("./output/sharpening-mask-image/filtered-blurry_moon.png", filteredImg)
+    sharpeningImg = ip.subtract(img, filteredImg, False)
+    ip.writeImage("./output/sharpening-mask-image/sharpening-blurry_moon.png", sharpeningImg)
+
+    ip.writeImage("./output/sharpening-mask-image/blurry_moon.png", img)
+    laplacedImg = ip.sharpeningLaplace(img)
+    #SCALING
+    ip.writeImage("./output/sharpening-mask-image/laplaced-blurry_moon.png", laplacedImg)
+    sharpening_LaplacedImg = ip.subtract(img, laplacedImg, False)
+    ip.writeImage("./output/sharpening-mask-image/sharpening-laplaced-blurry_moon.png", sharpening_LaplacedImg)
+
+    # sharping mask using median filter
+    img = ip.readImage("dipxe_text.png")
+    dir = os.path.join(os.getcwd(), "output", "sharpening-mask-image")
+    if not os.path.exists(dir):
+        os.mkdir(dir)
+    ip.writeImage("./output/sharpening-mask-image/dipxe_text.png", img)
+    medianImg = ip.medianFilterMask(img, 9)
+    sharpeningImg = medianImg
+    ip.writeImage("./output/sharpening-mask-image/sharpening-dipxe_text.png", sharpeningImg)
 
 if __name__ == "__main__":
     main()
