@@ -1,10 +1,19 @@
+"""
+Created by:
+Abdullah    MEMİŞOĞLU
+Ömer        CEBECİ
+Mehmet Berk KARTAL
+
+"""
+
 import imageio as iio
 import numpy as np
 import math
+import sys
 #ignore warning
 np.seterr(over='ignore')
 #print all numpy array
-#np.set_printoptions(threshold=sys.maxsize)
+np.set_printoptions(threshold=sys.maxsize)
 
 def readImage(fname):
     img = iio.v3.imread(fname)
@@ -46,6 +55,40 @@ def setPix(img, rows, cols, value):
     tempImg = img.copy()
     tempImg[rows, cols] = value
     return tempImg
+def scaling(img):
+    temp = img.copy()
+    nrows, ncols = getRow(img), getCol(img)
+    maxVal = getMax(temp)
+    minVal = getMin(temp)
+    temp = temp.astype('float64')
+    print("maxval: %d, minval %d" % (maxVal, minVal))
+    # SCALING SUBTRACTOR RESULT TO 0-255 PIXELS
+    for i in range(nrows):
+        for j in range(ncols):
+            temp[i, j] = (255) * ((temp[i, j] - minVal) / (maxVal - minVal))
+            if temp[i, j] < 0:
+                temp[i, j] = 0
+    return temp
+def subtract(img1, img2, flag):
+    temp = img1.copy()
+    nrows1, ncols1 = getRow(img1), getCol(img1)
+    nrows2, ncols2 = getRow(img2), getCol(img2)
+    temp = temp.astype('float64')
+    if nrows1 != nrows2 or ncols1 != ncols2:
+        print("can't subtract")
+    else:
+        for i in range(nrows1):
+            for j in range(ncols1):
+                temp[i, j] = float(img1[i, j]) - float(img2[i, j])
+
+    if flag == True:
+        scaling(temp)
+        temp = temp.astype('uint8')
+
+    else:
+        temp = temp.astype('uint8')
+
+    return temp
 
 def thresholdImage(img, thVal, lowVal, highVal):
     tempImg = img.copy()
@@ -142,7 +185,9 @@ def averageFilterMask(img, sizeOfFilter):
             # 1 birim gidip ilgili pikseller toplanmalıdır. (-(3-1)/2, (3-1)/2 + 1) -> (-1, 2, 1)
             # bu da -1 0 1 sol, merkez ve saga gitmek anlamına gelir.
             # Kodun 5x5, 7x7 ... için de gecerli oldugunu kagit uzerinde deneyebilirsiniz.
-            for filtRows in range(int(-(sizeOfFilter - 1)/2), int((sizeOfFilter - 1)/2 + 1), 1):
+            for filtRows in range(int(-(sizeOfFilter - 1)/2), \
+                                  int((sizeOfFilter - 1)/2 + 1), \
+                                  1):
                 for filtCols in range(int(-(sizeOfFilter - 1)/2), int((sizeOfFilter - 1)/2 + 1), 1):
                     if (filtRows + i) >= 0 \
                             and (filtRows + i) < nrows \
@@ -167,8 +212,12 @@ def medianFilterMask(img, sizeOfFilter):
             # 1 birim gidip ilgili pikseller toplanmalıdır. (-(3-1)/2, (3-1)/2 + 1) -> (-1, 2, 1)
             # bu da -1 0 1 sol, merkez ve saga gitmek anlamına gelir.
             # Kodun 5x5, 7x7 ... için de gecerli oldugunu kagit uzerinde deneyebilirsiniz.
-            for filtRows in range(int(-(sizeOfFilter - 1)/2), int((sizeOfFilter - 1)/2 + 1), 1):
-                for filtCols in range(int(-(sizeOfFilter - 1)/2), int((sizeOfFilter - 1)/2 + 1), 1):
+            for filtRows in range(int(-(sizeOfFilter - 1)/2), \
+                                  int((sizeOfFilter - 1)/2 + 1), \
+                                  1):
+                for filtCols in range(int(-(sizeOfFilter - 1)/2), \
+                                      int((sizeOfFilter - 1)/2 + 1), \
+                                      1):
                     if (filtRows + i) >= 0 \
                             and (filtRows + i) < nrows \
                             and (filtCols + j) >= 0 \
@@ -195,7 +244,6 @@ def sortArray(medianArray, sizeOfFilter):
                 tempArr[min] = temp
 
     return tempArr
-
 
 def histogramEqualization(img):
     nrows = getRow(img)

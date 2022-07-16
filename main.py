@@ -168,7 +168,7 @@ def main():
     # sharpening mask implementation
     img = ip.readImage("blurry_moon.png")
     dir = os.path.join(os.getcwd(), "output", "sharpening-mask-image")
-    if not os.path.exists(dir):æ
+    if not os.path.exists(dir):
         os.mkdir(dir)
     ip.writeImage("./output/sharpening-mask-image/blurry_moon.png", img)
     filteredImg = ip.sharpeningMask(img)
