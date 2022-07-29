@@ -10,6 +10,7 @@ import imageio as iio
 import numpy as np
 import math
 import sys
+import os
 #ignore warning
 np.seterr(over='ignore')
 #print all numpy array
@@ -22,6 +23,13 @@ def readImage(fname):
 def writeImage(fname, img):
     iio.v3.imwrite(fname, img)
 
+def createNewFolder(dir):
+    if os.path.exists(dir):
+        for f in os.listdir(dir):
+            os.remove(os.path.join(dir, f))
+        os.rmdir(dir)
+    if not os.path.exists(dir):
+        os.mkdir(dir)
 def getRow(img):
     return img.shape[0]
 

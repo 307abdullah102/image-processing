@@ -30,17 +30,15 @@ def main():
     ##
     # writing the array as an image to the folder
     dir = os.path.join(os.getcwd(), "output", "set-image")
-    if not os.path.exists(dir):
-        os.mkdir(dir)
+    ip.createNewFolder(dir)
     ip.writeImage("./output/set-image/settedImage.png", settedImage)
     
     """
     # threshold function implementation
-    """ 
+    """
     img = ip.readImage("test-pattern.png")
     dir = os.path.join(os.getcwd(), "output", "threshold-image")
-    if not os.path.exists(dir):
-        os.mkdir(dir)
+    ip.createNewFolder(dir)
     ip.writeImage("./output/threshold-image/test-pattern.png", img)
     img = ip.thresholdImage(img, 128, 0, 255)
     ip.writeImage("./output/threshold-image/threshold-test-pattern.png", img)
@@ -50,18 +48,17 @@ def main():
     """
     img = ip.readImage("saltpep-board.png")
     dir = os.path.join(os.getcwd(), "output", "double-image")
-    if not os.path.exists(dir):
-        os.mkdir(dir)
+    ip.createNewFolder(dir)
     ip.writeImage("./output/double-image/saltpep-board.png.png", img)
     img = ip.doubleImage(img)
     ip.writeImage("./output/double-image/doubled-saltpep-board.png", img)  
+    
     """
     # half image function implementation
     """
     img = ip.readImage("saltpep-board.png")
     dir = os.path.join(os.getcwd(), "output", "half-image")
-    if not os.path.exists(dir):
-        os.mkdir(dir)
+    ip.createNewFolder(dir)
     ip.writeImage("./output/half-image/saltpep-board.png", img)
     img = ip.halfImage(img)
     ip.writeImage("./output/half-image/half-of-saltpep-board.png", img)
@@ -71,8 +68,7 @@ def main():
     """
     img = ip.readImage("breast-xray.png")
     dir = os.path.join(os.getcwd(), "output", "negative-image")
-    if not os.path.exists(dir):
-        os.mkdir(dir)
+    ip.createNewFolder(dir)
     ip.writeImage("./output/negative-image/breast-xray.png", img)
     img = ip.negativeMask(img)
     ip.writeImage("./output/negative-image/negative-breast-xray.png", img)
@@ -82,8 +78,7 @@ def main():
     """
     img = ip.readImage("no-log-dft.png")
     dir = os.path.join(os.getcwd(), "output", "logaritmic-image")
-    if not os.path.exists(dir):
-        os.mkdir(dir)
+    ip.createNewFolder(dir)
     ip.writeImage("./output/logaritmic-image/no-log-dft.png", img)
     img = ip.logaritmicMask(img)
     ip.writeImage("./output/logaritmic-image/logaritmic-no-log-dft.png", img)
@@ -94,8 +89,7 @@ def main():
     img  = ip.readImage("fractured-spine.png")
     img2 = ip.readImage("washed_out_aerial_image.png")
     dir = os.path.join(os.getcwd(), "output", "gamma-image")
-    if not os.path.exists(dir):
-        os.mkdir(dir)
+    ip.createNewFolder(dir)
     ip.writeImage("./output/gamma-image/fractured-spine.png", img)
     img = ip.gammaMask(img, gamma = 0.6)
     ip.writeImage("./output/gamma-image/gamma-0_6.png", img)
@@ -117,8 +111,7 @@ def main():
     """
     img = ip.readImage("test-pattern.png")
     dir = os.path.join(os.getcwd(), "output", "average-filter-masked-image")
-    if not os.path.exists(dir):
-        os.mkdir(dir)
+    ip.createNewFolder(dir)
     ip.writeImage("./output/average-filter-masked-image/test-pattern.png", img)
     img = ip.averageFilterMask(img, 3)
     ip.writeImage("./output/average-filter-masked-image/average-filter-3x3-image-test-pattern.png", img)
@@ -130,14 +123,13 @@ def main():
     """
     img = ip.readImage("saltpep-board.png")
     dir = os.path.join(os.getcwd(), "output", "median-filter-masked-image")
-    if not os.path.exists(dir):
-        os.mkdir(dir)
+    ip.createNewFolder(dir)
     ip.writeImage("./output/median-filter-masked-image/saltpep-board.png", img)
     img = ip.medianFilterMask(img, 3)
     ip.writeImage("./output/median-filter-masked-image/median-filter-3x3-image-saltpep-board.png", img)
     img = ip.medianFilterMask(img, 5)
     ip.writeImage("./output/median-filter-masked-image/median-filter-5x5-image-saltpep-board.png", img)
-
+    
     """
    # histogram equalization implementation
     """
@@ -147,8 +139,7 @@ def main():
     img4 = ip.readImage("coffee_bean_4.png")
 
     dir = os.path.join(os.getcwd(), "output", "histogram-equalization-image")
-    if not os.path.exists(dir):
-        os.mkdir(dir)
+    ip.createNewFolder(dir)
 
     ip.writeImage("./output/histogram-equalization-image/coffee_bean_1.png", img1)
     ip.writeImage("./output/histogram-equalization-image/coffee_bean_2.png", img2)
@@ -166,10 +157,10 @@ def main():
 
     """
     # sharpening mask implementation
+    """
     img = ip.readImage("blurry_moon.png")
     dir = os.path.join(os.getcwd(), "output", "sharpening-mask-image")
-    if not os.path.exists(dir):
-        os.mkdir(dir)
+    ip.createNewFolder(dir)
     ip.writeImage("./output/sharpening-mask-image/blurry_moon.png", img)
     filteredImg = ip.sharpeningMask(img)
     #SCALING
@@ -184,15 +175,17 @@ def main():
     sharpening_LaplacedImg = ip.subtract(img, laplacedImg, False)
     ip.writeImage("./output/sharpening-mask-image/sharpening-laplaced-blurry_moon.png", sharpening_LaplacedImg)
 
+    """
     # sharping mask using median filter
+    """
     img = ip.readImage("dipxe_text.png")
-    dir = os.path.join(os.getcwd(), "output", "sharpening-mask-image")
-    if not os.path.exists(dir):
-        os.mkdir(dir)
-    ip.writeImage("./output/sharpening-mask-image/dipxe_text.png", img)
+    dir = os.path.join(os.getcwd(), "output", "sharpening-mask-image-using-median-filter")
+    ip.createNewFolder(dir)
+    ip.writeImage("./output/sharpening-mask-image-using-median-filter/dipxe_text.png", img)
     medianImg = ip.medianFilterMask(img, 9)
     sharpeningImg = medianImg
-    ip.writeImage("./output/sharpening-mask-image/sharpening-dipxe_text.png", sharpeningImg)
+    ip.writeImage("./output/sharpening-mask-image-using-median-filter/sharpening-dipxe_text.png", sharpeningImg)
+    """
 
 if __name__ == "__main__":
     main()
