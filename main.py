@@ -4,7 +4,6 @@ import os
 def main():
     # read an image
     img = ip.readImage("breast-xray.png")
-
     # getting rows and columns
     """
     print(ip.getRow(img))
