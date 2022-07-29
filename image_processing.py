@@ -1,9 +1,6 @@
 """
 Created by:
 Abdullah    MEMİŞOĞLU
-Ömer        CEBECİ
-Mehmet Berk KARTAL
-
 """
 
 import imageio as iio
