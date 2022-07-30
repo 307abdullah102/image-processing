@@ -17,3 +17,6 @@ You can find all mathematical expressions in `image-processing-notes.pdf` file
 ## REFERENCES
 [Images](https://www.imageprocessingplace.com/DIP-3E/dip3e_book_images_downloads.htm)
 
+## NOTE 
+[You can take a look to run the code in a simple way. ](https://www.youtube.com/watch?v=Wea1jiAudwQ&ab_channel=AbdullahMemi%C5%9Fo%C4%9Flu)
+
