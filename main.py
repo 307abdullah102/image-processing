@@ -161,30 +161,36 @@ def main():
     dir = os.path.join(os.getcwd(), "output", "sharpening-mask-image")
     ip.createNewFolder(dir)
     ip.writeImage("./output/sharpening-mask-image/blurry_moon.png", img)
-    filteredImg = ip.sharpeningMask(img)
-    #SCALING
+    
+    filteredImg = ip.sharpeningMask(img, True)
     ip.writeImage("./output/sharpening-mask-image/filtered-blurry_moon.png", filteredImg)
-    sharpeningImg = ip.subtract(img, filteredImg, False)
+    sharpeningImg = ip.subtract(img, filteredImg)
     ip.writeImage("./output/sharpening-mask-image/sharpening-blurry_moon.png", sharpeningImg)
 
     ip.writeImage("./output/sharpening-mask-image/blurry_moon.png", img)
-    laplacedImg = ip.sharpeningLaplace(img)
-    #SCALING
+    laplacedImg = ip.sharpeningLaplaceMask(img, True)
     ip.writeImage("./output/sharpening-mask-image/laplaced-blurry_moon.png", laplacedImg)
-    sharpening_LaplacedImg = ip.subtract(img, laplacedImg, False)
+    sharpening_LaplacedImg = ip.subtract(img, laplacedImg)
     ip.writeImage("./output/sharpening-mask-image/sharpening-laplaced-blurry_moon.png", sharpening_LaplacedImg)
 
     """
+
+
     # sharping mask using median filter
-    """
+
     img = ip.readImage("dipxe_text.png")
     dir = os.path.join(os.getcwd(), "output", "sharpening-mask-image-using-median-filter")
     ip.createNewFolder(dir)
     ip.writeImage("./output/sharpening-mask-image-using-median-filter/dipxe_text.png", img)
-    medianImg = ip.medianFilterMask(img, 9)
-    sharpeningImg = medianImg
+
+    blurred = ip.medianFilterMask(img, 9)
+    ip.writeImage("./output/sharpening-mask-image-using-median-filter/blurred-dipxe_text.png", blurred)
+    unsharped = ip.subtract(img, blurred)
+    ip.writeImage("./output/sharpening-mask-image-using-median-filter/unsharped-dipxe_text.png", unsharped)
+
+    sharpeningImg = img + unsharped
     ip.writeImage("./output/sharpening-mask-image-using-median-filter/sharpening-dipxe_text.png", sharpeningImg)
-    """
+
 
 if __name__ == "__main__":
     main()

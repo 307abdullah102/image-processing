@@ -27,6 +27,7 @@ def createNewFolder(dir):
         os.rmdir(dir)
     if not os.path.exists(dir):
         os.mkdir(dir)
+
 def getRow(img):
     return img.shape[0]
 
@@ -62,7 +63,7 @@ def setPix(img, rows, cols, value):
     return tempImg
 def scaling(img):
     temp = img.copy()
-    nrows, ncols = getRow(img), getCol(img)
+    nrows, ncols = getRow(temp), getCol(temp)
     maxVal = getMax(temp)
     minVal = getMin(temp)
     temp = temp.astype('float64')
@@ -73,8 +74,9 @@ def scaling(img):
             temp[i, j] = (255) * ((temp[i, j] - minVal) / (maxVal - minVal))
             if temp[i, j] < 0:
                 temp[i, j] = 0
+    temp = temp.astype('uint8')
     return temp
-def subtract(img1, img2, flag):
+def subtract(img1, img2):
     temp = img1.copy()
     nrows1, ncols1 = getRow(img1), getCol(img1)
     nrows2, ncols2 = getRow(img2), getCol(img2)
@@ -85,12 +87,10 @@ def subtract(img1, img2, flag):
         for i in range(nrows1):
             for j in range(ncols1):
                 temp[i, j] = float(img1[i, j]) - float(img2[i, j])
-
-    if flag == True:
-        scaling(temp)
-        temp = temp.astype('uint8')
-
-    else:
+                if temp[i, j] < 0:
+                    temp[i, j] = 0
+                elif temp[i, j] > 255:
+                    temp[i, j] = 255
         temp = temp.astype('uint8')
 
     return temp
@@ -217,6 +217,7 @@ def medianFilterMask(img, sizeOfFilter):
             # 1 birim gidip ilgili pikseller toplanmalıdır. (-(3-1)/2, (3-1)/2 + 1) -> (-1, 2, 1)
             # bu da -1 0 1 sol, merkez ve saga gitmek anlamına gelir.
             # Kodun 5x5, 7x7 ... için de gecerli oldugunu kagit uzerinde deneyebilirsiniz.
+            counter = 0
             for filtRows in range(int(-(sizeOfFilter - 1)/2), \
                                   int((sizeOfFilter - 1)/2 + 1), \
                                   1):
@@ -233,7 +234,7 @@ def medianFilterMask(img, sizeOfFilter):
                     counter += 1
             medianArray = sortArray(medianArray, sizeOfFilter)
             tempImage[i, j] = medianArray[int((sizeOfFilter * sizeOfFilter - 1)/2)]
-            counter = 0
+
     return tempImage
 
 def sortArray(medianArray, sizeOfFilter):
@@ -285,27 +286,34 @@ def histogramEqualization(img):
 # |1  -4   1| soldaki maskenin teorik cikarimina foyden erisebilirsiniz.
 # |0   1   0|
 
-def sharpeningMask(img):
+def sharpeningMask(img, flag):
     nrows = getRow(img)
     ncols = getCol(img)
     filteredImg = np.zeros((nrows, ncols), dtype = 'float64')
     for i in range(nrows):
         for j in range(ncols):
             if i >= 1 and j >= 1 and i < nrows-1 and j < ncols-1:
-                pixVal = ((-4) * float(img[i, j]) + \
-                          float(img[i, j-1]) + \
-                          float(img[i, j+1]) + \
-                          float(img[i-1, j]) + \
-                          float(img[i+1, j]))
+                pixVal = ((-4) * np.float(img[i, j]) + \
+                          np.float(img[i, j-1]) + \
+                          np.float(img[i, j+1]) + \
+                          np.float(img[i-1, j]) + \
+                          np.float(img[i+1, j]))
+
             else:
                 pixVal = 0
             filteredImg[i, j] = pixVal
-    #filteredImg = scaling(filteredImg)
-    filteredImg = filteredImg.astype('uint8')
+            if filteredImg[i, j] < 0:
+                filteredImg[i, j] = 0
+            elif filteredImg[i, j] > 255:
+                filteredImg[i, j] = 255
+
+
+    filteredImg = (filteredImg).astype('uint8')
+
     return filteredImg
 
 
-def sharpeningLaplace(img):
+def sharpeningLaplaceMask(img, flag):
     nrows = getRow(img)
     ncols = getCol(img)
     filteredImg = np.zeros((nrows, ncols), dtype='float64')
@@ -320,13 +328,19 @@ def sharpeningLaplace(img):
                           float(img[i + 1, j + 1]) + \
                           float(img[i - 1, j - 1]) + \
                          float(img[i - 1, j + 1]) + \
-                         float(img[i - 1, j + 1]))
+                         float(img[i + 1, j - 1]))
             else:
                 pixVal = 0
             filteredImg[i, j] = pixVal
-    #print(filteredImg)
-    #filteredImg = scaling(filteredImg)
-    filteredImg = filteredImg.astype('uint8')
+            if filteredImg[i, j] < 0:
+                filteredImg[i, j] = 0
+            elif filteredImg[i, j] > 255:
+                filteredImg[i, j] = 255
+
+    filteredImg = (filteredImg).astype('uint8')
+
     return filteredImg
+
+
 
 
