@@ -168,7 +168,7 @@ def main():
 
     ip.writeImage("./output/sharpening-mask-image/blurry_moon.png", img)
     laplacedImg = ip.sharpeningLaplaceMask(img, True)
-    ip.writeImage("./output/sharpening-mask-image/laplaced-blurry_moon.png", laplacedImg)
+    ip.writeImage("./output/sharpening-mask-image/laplaced-blKurry_moon.png", laplacedImg)
     sharpening_LaplacedImg = ip.subtract(img, laplacedImg)
     ip.writeImage("./output/sharpening-mask-image/sharpening-laplaced-blurry_moon.png", sharpening_LaplacedImg)
 
