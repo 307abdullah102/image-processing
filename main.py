@@ -1,9 +1,8 @@
 import image_processing as ip
 import os
-
 def main():
     # read an image
-    img = ip.readImage("breast-xray.png")
+    img = ip.readImage("./input_ images/breast-xray.png")
     # getting rows and columns
     """
     print(ip.getRow(img))
@@ -35,7 +34,7 @@ def main():
     """
     # threshold function implementation
     """
-    img = ip.readImage("test-pattern.png")
+    img = ip.readImage("./input_ images/test-pattern.png")
     dir = os.path.join(os.getcwd(), "output", "threshold-image")
     ip.createNewFolder(dir)
     ip.writeImage("./output/threshold-image/test-pattern.png", img)
@@ -45,7 +44,7 @@ def main():
     """
     # double image function implementation
     """
-    img = ip.readImage("saltpep-board.png")
+    img = ip.readImage("./input_ images/saltpep-board.png")
     dir = os.path.join(os.getcwd(), "output", "double-image")
     ip.createNewFolder(dir)
     ip.writeImage("./output/double-image/saltpep-board.png.png", img)
@@ -55,7 +54,7 @@ def main():
     """
     # half image function implementation
     """
-    img = ip.readImage("saltpep-board.png")
+    img = ip.readImage("./input_ images/saltpep-board.png")
     dir = os.path.join(os.getcwd(), "output", "half-image")
     ip.createNewFolder(dir)
     ip.writeImage("./output/half-image/saltpep-board.png", img)
@@ -65,7 +64,7 @@ def main():
     """
     # negative mask function implementation
     """
-    img = ip.readImage("breast-xray.png")
+    img = ip.readImage("./input_ images/breast-xray.png")
     dir = os.path.join(os.getcwd(), "output", "negative-image")
     ip.createNewFolder(dir)
     ip.writeImage("./output/negative-image/breast-xray.png", img)
@@ -75,7 +74,7 @@ def main():
     """
     # logaritmic mask function implementation
     """
-    img = ip.readImage("no-log-dft.png")
+    img = ip.readImage("./input_ images/no-log-dft.png")
     dir = os.path.join(os.getcwd(), "output", "logaritmic-image")
     ip.createNewFolder(dir)
     ip.writeImage("./output/logaritmic-image/no-log-dft.png", img)
@@ -85,8 +84,8 @@ def main():
     """
     # gamma mask function implementation
     """
-    img  = ip.readImage("fractured-spine.png")
-    img2 = ip.readImage("washed_out_aerial_image.png")
+    img  = ip.readImage("./input_ images/fractured-spine.png")
+    img2 = ip.readImage("./input_ images/washed_out_aerial_image.png")
     dir = os.path.join(os.getcwd(), "output", "gamma-image")
     ip.createNewFolder(dir)
     ip.writeImage("./output/gamma-image/fractured-spine.png", img)
@@ -108,7 +107,7 @@ def main():
     """
     # average filter mask implementation
     """
-    img = ip.readImage("test-pattern.png")
+    img = ip.readImage("./input_ images/test-pattern.png")
     dir = os.path.join(os.getcwd(), "output", "average-filter-masked-image")
     ip.createNewFolder(dir)
     ip.writeImage("./output/average-filter-masked-image/test-pattern.png", img)
@@ -120,7 +119,7 @@ def main():
     """
     # median filter mask implementation
     """
-    img = ip.readImage("saltpep-board.png")
+    img = ip.readImage("./input_ images/saltpep-board.png")
     dir = os.path.join(os.getcwd(), "output", "median-filter-masked-image")
     ip.createNewFolder(dir)
     ip.writeImage("./output/median-filter-masked-image/saltpep-board.png", img)
@@ -132,10 +131,10 @@ def main():
     """
    # histogram equalization implementation
     """
-    img1 = ip.readImage("coffee_bean_1.png")
-    img2 = ip.readImage("coffee_bean_2.png")
-    img3 = ip.readImage("coffee_bean_3.png")
-    img4 = ip.readImage("coffee_bean_4.png")
+    img1 = ip.readImage("./input_ images/coffee_bean_1.png")
+    img2 = ip.readImage("./input_ images/coffee_bean_2.png")
+    img3 = ip.readImage("./input_ images/coffee_bean_3.png")
+    img4 = ip.readImage("./input_ images/coffee_bean_4.png")
 
     dir = os.path.join(os.getcwd(), "output", "histogram-equalization-image")
     ip.createNewFolder(dir)
@@ -157,7 +156,7 @@ def main():
     """
     # sharpening mask implementation
     """
-    img = ip.readImage("blurry_moon.png")
+    img = ip.readImage("./input_ images/blurry_moon.png")
     dir = os.path.join(os.getcwd(), "output", "sharpening-mask-image")
     ip.createNewFolder(dir)
     ip.writeImage("./output/sharpening-mask-image/blurry_moon.png", img)
@@ -177,8 +176,8 @@ def main():
 
 
     # sharping mask using median filter
-
-    img = ip.readImage("dipxe_text.png")
+    """
+    img = ip.readImage("./input_ images/dipxe_text.png")
     dir = os.path.join(os.getcwd(), "output", "sharpening-mask-image-using-median-filter")
     ip.createNewFolder(dir)
     ip.writeImage("./output/sharpening-mask-image-using-median-filter/dipxe_text.png", img)
@@ -190,6 +189,8 @@ def main():
 
     sharpeningImg = img + unsharped
     ip.writeImage("./output/sharpening-mask-image-using-median-filter/sharpening-dipxe_text.png", sharpeningImg)
+
+    """
 
 
 if __name__ == "__main__":
